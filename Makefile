@@ -324,19 +324,14 @@ trailingWhitespace:
 # =========================================================
 ifneq (,$(filter $(shell uname),Linux Darwin GNU/kFreeBSD GNU OpenBSD FreeBSD NetBSD DragonFly SunOS))
 
-DESTDIR     ?=
 # directory variables: GNU conventions prefer lowercase
 # see https://www.gnu.org/prep/standards/html_node/Makefile-Conventions.html
 # support both lower and uppercase (BSD), use uppercase in script
-prefix      ?= /usr/local
-PREFIX      ?= $(prefix)
-exec_prefix ?= $(PREFIX)
-libdir      ?= $(exec_prefix)/lib
-LIBDIR      ?= $(libdir)
-includedir  ?= $(PREFIX)/include
-INCLUDEDIR  ?= $(includedir)
-bindir      ?= $(exec_prefix)/bin
-BINDIR      ?= $(bindir)
+DESTDIR ?= /
+PREFIX ?= ${DESTDIR}usr/local
+LIBDIR      ?= $(PREFIX)/lib
+INCLUDEDIR  ?= $(PREFIX)/include
+BINDIR      ?= $(PREFIX)/bin
 datarootdir ?= $(PREFIX)/share
 mandir      ?= $(datarootdir)/man
 man1dir     ?= $(mandir)/man1
@@ -366,46 +361,46 @@ INSTALL_DATA    ?= $(INSTALL) -m 644
 .PHONY: install
 install: lib pkgconfig xxhsum  ## install libraries, CLI, links and man page
 	@echo Installing libxxhash
-	@$(INSTALL) -d -m 755 $(DESTDIR)$(LIBDIR)
-	@$(INSTALL_DATA) libxxhash.a $(DESTDIR)$(LIBDIR)
-	@$(INSTALL_PROGRAM) $(LIBXXH) $(DESTDIR)$(LIBDIR)
-	@ln -sf $(LIBXXH) $(DESTDIR)$(LIBDIR)/libxxhash.$(SHARED_EXT_MAJOR)
-	@ln -sf $(LIBXXH) $(DESTDIR)$(LIBDIR)/libxxhash.$(SHARED_EXT)
-	@$(INSTALL) -d -m 755 $(DESTDIR)$(INCLUDEDIR)   # includes
-	@$(INSTALL_DATA) xxhash.h $(DESTDIR)$(INCLUDEDIR)
-	@$(INSTALL_DATA) xxh3.h $(DESTDIR)$(INCLUDEDIR)
+	@$(INSTALL) -d -m 755 $(LIBDIR)
+	@$(INSTALL_DATA) libxxhash.a $(LIBDIR)
+	@$(INSTALL_PROGRAM) $(LIBXXH) $(LIBDIR)
+	@ln -sf $(LIBXXH) $(LIBDIR)/libxxhash.$(SHARED_EXT_MAJOR)
+	@ln -sf $(LIBXXH) $(LIBDIR)/libxxhash.$(SHARED_EXT)
+	@$(INSTALL) -d -m 755 $(INCLUDEDIR)   # includes
+	@$(INSTALL_DATA) xxhash.h $(INCLUDEDIR)
+	@$(INSTALL_DATA) xxh3.h $(INCLUDEDIR)
 	@echo Installing pkgconfig
-	@$(INSTALL) -d -m 755 $(DESTDIR)$(PKGCONFIGDIR)/
-	@$(INSTALL_DATA) libxxhash.pc $(DESTDIR)$(PKGCONFIGDIR)/
+	@$(INSTALL) -d -m 755 $(PKGCONFIGDIR)/
+	@$(INSTALL_DATA) libxxhash.pc $(PKGCONFIGDIR)/
 	@echo Installing xxhsum
-	@$(INSTALL) -d -m 755 $(DESTDIR)$(BINDIR)/ $(DESTDIR)$(MANDIR)/
-	@$(INSTALL_PROGRAM) xxhsum $(DESTDIR)$(BINDIR)/xxhsum
-	@ln -sf xxhsum $(DESTDIR)$(BINDIR)/xxh32sum
-	@ln -sf xxhsum $(DESTDIR)$(BINDIR)/xxh64sum
-	@ln -sf xxhsum $(DESTDIR)$(BINDIR)/xxh128sum
+	@$(INSTALL) -d -m 755 $(BINDIR)/ $(MANDIR)/
+	@$(INSTALL_PROGRAM) xxhsum $(BINDIR)/xxhsum
+	@ln -sf xxhsum $(BINDIR)/xxh32sum
+	@ln -sf xxhsum $(BINDIR)/xxh64sum
+	@ln -sf xxhsum $(BINDIR)/xxh128sum
 	@echo Installing man pages
-	@$(INSTALL_DATA) xxhsum.1 $(DESTDIR)$(MANDIR)/xxhsum.1
-	@ln -sf xxhsum.1 $(DESTDIR)$(MANDIR)/xxh32sum.1
-	@ln -sf xxhsum.1 $(DESTDIR)$(MANDIR)/xxh64sum.1
-	@ln -sf xxhsum.1 $(DESTDIR)$(MANDIR)/xxh128sum.1
+	@$(INSTALL_DATA) xxhsum.1 $(MANDIR)/xxhsum.1
+	@ln -sf xxhsum.1 $(MANDIR)/xxh32sum.1
+	@ln -sf xxhsum.1 $(MANDIR)/xxh64sum.1
+	@ln -sf xxhsum.1 $(MANDIR)/xxh128sum.1
 	@echo xxhash installation completed
 
 .PHONY: uninstall
 uninstall:  ## uninstall libraries, CLI, links and man page
-	@$(RM) $(DESTDIR)$(LIBDIR)/libxxhash.a
-	@$(RM) $(DESTDIR)$(LIBDIR)/libxxhash.$(SHARED_EXT)
-	@$(RM) $(DESTDIR)$(LIBDIR)/libxxhash.$(SHARED_EXT_MAJOR)
-	@$(RM) $(DESTDIR)$(LIBDIR)/$(LIBXXH)
-	@$(RM) $(DESTDIR)$(INCLUDEDIR)/xxhash.h
-	@$(RM) $(DESTDIR)$(PKGCONFIGDIR)/libxxhash.pc
-	@$(RM) $(DESTDIR)$(BINDIR)/xxh32sum
-	@$(RM) $(DESTDIR)$(BINDIR)/xxh64sum
-	@$(RM) $(DESTDIR)$(BINDIR)/xxh128sum
-	@$(RM) $(DESTDIR)$(BINDIR)/xxhsum
-	@$(RM) $(DESTDIR)$(MANDIR)/xxh32sum.1
-	@$(RM) $(DESTDIR)$(MANDIR)/xxh64sum.1
-	@$(RM) $(DESTDIR)$(MANDIR)/xxh128sum.1
-	@$(RM) $(DESTDIR)$(MANDIR)/xxhsum.1
+	@$(RM) $(LIBDIR)/libxxhash.a
+	@$(RM) $(LIBDIR)/libxxhash.$(SHARED_EXT)
+	@$(RM) $(LIBDIR)/libxxhash.$(SHARED_EXT_MAJOR)
+	@$(RM) $(LIBDIR)/$(LIBXXH)
+	@$(RM) $(INCLUDEDIR)/xxhash.h
+	@$(RM) $(PKGCONFIGDIR)/libxxhash.pc
+	@$(RM) $(BINDIR)/xxh32sum
+	@$(RM) $(BINDIR)/xxh64sum
+	@$(RM) $(BINDIR)/xxh128sum
+	@$(RM) $(BINDIR)/xxhsum
+	@$(RM) $(MANDIR)/xxh32sum.1
+	@$(RM) $(MANDIR)/xxh64sum.1
+	@$(RM) $(MANDIR)/xxh128sum.1
+	@$(RM) $(MANDIR)/xxhsum.1
 	@echo xxhsum successfully uninstalled
 
 endif
