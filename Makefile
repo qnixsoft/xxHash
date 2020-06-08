@@ -364,14 +364,14 @@ install: lib pkgconfig xxhsum  ## install libraries, CLI, links and man page
 	@$(INSTALL) -d -m 755 $(LIBDIR)
 	@$(INSTALL_DATA) libxxhash.a $(LIBDIR)
 	@$(INSTALL_PROGRAM) $(LIBXXH) $(LIBDIR)
-	@ln -sf $(LIBXXH) $(LIBDIR)/libxxhash.$(SHARED_EXT_MAJOR)
-	@ln -sf $(LIBXXH) $(LIBDIR)/libxxhash.$(SHARED_EXT)
+	# @ln -sf $(LIBXXH) $(LIBDIR)/libxxhash.$(SHARED_EXT_MAJOR)
+	# @ln -sf $(LIBXXH) $(LIBDIR)/libxxhash.$(SHARED_EXT)
 	@$(INSTALL) -d -m 755 $(INCLUDEDIR)   # includes
 	@$(INSTALL_DATA) xxhash.h $(INCLUDEDIR)
 	@$(INSTALL_DATA) xxh3.h $(INCLUDEDIR)
-	@echo Installing pkgconfig
-	@$(INSTALL) -d -m 755 $(PKGCONFIGDIR)/
-	@$(INSTALL_DATA) libxxhash.pc $(PKGCONFIGDIR)/
+	# @echo Installing pkgconfig
+	# @$(INSTALL) -d -m 755 $(PKGCONFIGDIR)/
+	# @$(INSTALL_DATA) libxxhash.pc $(PKGCONFIGDIR)/
 	@echo Installing xxhsum
 	@$(INSTALL) -d -m 755 $(BINDIR)/ $(MANDIR)/
 	@$(INSTALL_PROGRAM) xxhsum $(BINDIR)/xxhsum
